@@ -11,7 +11,7 @@ spec:
       match: Host(`guestbook.local`)
       priority: 10
       services:
-        - name: argocd-server
+        - name: guestbook-ui
           port: 80
   tls:
     certResolver: default
