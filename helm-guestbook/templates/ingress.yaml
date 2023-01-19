@@ -1,19 +1,17 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: helm-guestbook
+  name: guestbook-ingress
   namespace: testing-argo
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
-  rules:
-  - host: "guestbook.local"
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: guestbook-helm-helm-guestbook
-            port:
-              number: 80
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`guestbook.local`)
+      priority: 10
+      services:
+        - name: guestbook-helm-helm-guestbook
+          port: 80
+  tls:
+    certResolver: default
