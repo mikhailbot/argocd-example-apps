@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: guestbook
+  namespace: testing-argo
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`guestbook.local`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 80
+  tls:
+    certResolver: default
